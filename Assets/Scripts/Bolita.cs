@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bolita : MonoBehaviour
@@ -7,10 +8,13 @@ public class Bolita : MonoBehaviour
     [SerializeField] private float moveForce = 5f;
     private Vector3 movementDirection;
     private Rigidbody rb;
+    private Vector3 actualposition;
+    private float offsetraycast = 0.1f;
 
     private void Awake()
     {
        rb = GetComponent<Rigidbody>();
+       
         
     }
 
@@ -35,12 +39,31 @@ public class Bolita : MonoBehaviour
         float hInput = Input.GetAxisRaw("Horizontal");
         float vInput = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector3(hInput, 0, vInput).normalized;
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+        Interact();
+        Jump();
+    }
+
+    private void Interact()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Physics.OverlapSphere(transform.position + 0.05f * Vector3.forward, 0.05f);
         }
     }
-     
+
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Se lanza un rayo para ver si estoy en suelo 
+            if (Physics.Raycast(transform.localPosition, Vector3.down, transform.localScale.y + offsetraycast))
+            {
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+        }
+    }
+
     //Para ejecutar fisicas cuyo cálculo sea acumulable en el tiempo
     private void FixedUpdate() //Cada 0.02 segundos
     {
@@ -61,5 +84,12 @@ public class Bolita : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position + 0.5f * Vector3.forward, 0.05f);
     }
 }
