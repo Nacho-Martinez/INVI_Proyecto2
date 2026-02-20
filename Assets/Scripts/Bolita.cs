@@ -1,11 +1,13 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bolita : MonoBehaviour
 {
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float moveForce = 5f;
+    [SerializeField] private LayerMask whatIsInteractable;
     private Vector3 movementDirection;
     private Rigidbody rb;
     private Vector3 actualposition;
@@ -48,7 +50,11 @@ public class Bolita : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Physics.OverlapSphere(transform.position + 0.05f * Vector3.forward, 0.05f);
+            if (Physics.Raycast(transform.localPosition, Vector3.forward, out RaycastHit hit,
+                    transform.localScale.z + offsetraycast,whatIsInteractable))
+            {
+                Destroy(hit.collider.gameObject);
+            }
         }
     }
 
@@ -87,9 +93,5 @@ public class Bolita : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.position + 0.5f * Vector3.forward, 0.05f);
-    }
+  
 }
