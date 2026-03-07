@@ -1,23 +1,37 @@
 using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(Rigidbody))]
+
+
 public class Bolita : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float moveForce = 5f;
+    
+    [Header("Checkers")]
     [SerializeField] private LayerMask whatIsInteractable;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip jumpSound;
+    // [SerializeField] private AudioClip jumpSound;
     private Vector3 movementDirection;
     private Rigidbody rb;
     private Vector3 actualposition;
     private float offsetraycast = 0.1f;
+    // private AudioSource _audioSource;
+    private int score = 0;
 
     private void Awake()
     {
        rb = GetComponent<Rigidbody>();
-       
-        
+      // _audioSource= GetComponent<AudioSource>();
+
+
     }
 
     private void OnEnable()
@@ -62,10 +76,13 @@ public class Bolita : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            AudioManager.AudioInstance.PlaySoud(jumpSound);
             //Se lanza un rayo para ver si estoy en suelo 
             if (Physics.Raycast(transform.localPosition, Vector3.down, transform.localScale.y + offsetraycast))
             {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                // _audioSource.clip = jumpSound;
+                // _audioSource.Play();
+                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
         }
     }
@@ -78,8 +95,10 @@ public class Bolita : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //Cuando de produce un evento de trigger (atravesar)
     {
-        if (other.gameObject.CompareTag("Coin"))
+        if (other.gameObject.TryGetComponent(out Coin coinScript))
         {
+            score += coinScript.CoinScore;
+           UIManager.Instance.ScoreText.SetText("Score: " + score);
             Destroy(other.gameObject);
         }
     }

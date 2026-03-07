@@ -8,7 +8,13 @@ public class Spawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        LaunchBall();
+    }
+
+    private void LaunchBall()
+    {
         GameObject copy = Instantiate(bolitaPrefab, transform.position, Quaternion.identity);
+        copy.GetComponent<Rigidbody>().AddForce(Vector3.forward * Random.Range(5f,15f),ForceMode.Impulse);
         Destroy(copy , 3f);
     }
 
@@ -18,8 +24,7 @@ public class Spawner : MonoBehaviour
         timer += Time.deltaTime;
             if(timer>= timeBetweenSpawns)
             {
-                 GameObject copy = Instantiate(bolitaPrefab, transform.position, Quaternion.identity);
-                Destroy(copy , 3f);
+                LaunchBall();
                 timer = 0;
             }
         
