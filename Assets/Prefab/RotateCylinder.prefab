@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5655496627038843913}
   - component: {fileID: 7527291594707677548}
   - component: {fileID: 6621653015101292700}
+  - component: {fileID: -1001325562866235150}
   m_Layer: 0
   m_Name: RotateCylinder
   m_TagString: Untagged
@@ -127,4 +128,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb69d34630fcf1c4aa31bc5e253ef899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RotateCilinder
-  SpeedRotatin: 5
+  ForceRotation: 0
+--- !u!54 &-1001325562866235150
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2982222881329211243}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

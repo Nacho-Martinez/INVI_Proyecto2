@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     
     //Un campo automaticamente encapsulado y está serializado 
     [field: SerializeField] public TMP_Text ScoreText { get; private set; }
+    [field: SerializeField] public TMP_Text InteractText { get; private set; }
     public static UIManager Instance { get; private set; }
     
     private void Awake()
@@ -36,13 +37,13 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SceneManager.LoadScene("Ejemplo");
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SceneManager.LoadScene("SampleScene");
-        }
+        // if (Input.GetKeyDown(KeyCode.K))
+        // {
+        //     SceneManager.LoadScene("Ejemplo");
+        // }
+        // if (Input.GetKeyDown(KeyCode.L))
+        // {
+        //     SceneManager.LoadScene("SampleScene");
+        // }
     }
 }

@@ -18,6 +18,8 @@ public class Bolita : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] private AudioClip jumpSound;
+    
+    
     // [SerializeField] private AudioClip jumpSound;
     private Vector3 movementDirection;
     private Rigidbody rb;
@@ -62,14 +64,10 @@ public class Bolita : MonoBehaviour
 
     private void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (Physics.Raycast(transform.localPosition, Vector3.forward, out RaycastHit hit,
-                    transform.localScale.z + offsetraycast,whatIsInteractable))
-            {
-                Destroy(hit.collider.gameObject);
-            }
-        }
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     
+        // }
     }
 
     private void Jump()
@@ -111,6 +109,25 @@ public class Bolita : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("BotonLaverinto"))
+        {
+            UIManager.Instance.InteractText.SetText("Presiona E");
+            // transform.SetParent(other.gameObject.transform);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+            PrimeraSala.Instance.Rotate();
+            }
+        }
+    }
 
-  
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("BotonLaverinto"))
+        {
+            UIManager.Instance.InteractText.SetText("");
+            // transform.SetParent(null);
+        }
+    }
 }
