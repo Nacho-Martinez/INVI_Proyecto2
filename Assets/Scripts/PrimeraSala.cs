@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PrimeraSala : MonoBehaviour
 {
     [SerializeField] private float rotationDuration = 2f;
+    [SerializeField] private CinemachineCamera mainCamera;
+    [SerializeField] private CinemachineCamera rotationCamera;
     private float rotationAmount = 90f;
-    private bool isRotating = false;
+    public bool IsRotating { get; private set; } = false;
     private Rigidbody rb;
     
     public static PrimeraSala Instance { get; private set; }
@@ -42,7 +45,7 @@ public class PrimeraSala : MonoBehaviour
 
     public void Rotate()
     {
-        if (!isRotating)
+        if (!IsRotating)
         {
             StartCoroutine(RotateSmoothly());
         }
@@ -50,7 +53,9 @@ public class PrimeraSala : MonoBehaviour
 
     IEnumerator RotateSmoothly()
     {
-        isRotating = true;
+        IsRotating = true;
+        mainCamera.Priority = 5;
+        rotationCamera.Priority = 20;
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.Euler(rotationAmount, 0, 0);
         float time = 0;
@@ -65,6 +70,8 @@ public class PrimeraSala : MonoBehaviour
         }
 
         rb.MoveRotation(endRotation);
-        isRotating = false;
+        mainCamera.Priority = 20;
+        rotationCamera.Priority = 5;
+        IsRotating = false;
     }
 }
