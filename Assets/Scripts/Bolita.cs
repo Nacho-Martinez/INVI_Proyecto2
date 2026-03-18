@@ -12,6 +12,7 @@ public class Bolita : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float moveForce = 5f;
+    [SerializeField] private Transform cameraTransfrom;
     
     [Header("Checkers")]
     [SerializeField] private LayerMask whatIsInteractable;
@@ -57,7 +58,12 @@ public class Bolita : MonoBehaviour
         {
             float hInput = Input.GetAxisRaw("Horizontal");
             float vInput = Input.GetAxisRaw("Vertical");
-            movementDirection = new Vector3(hInput, 0, vInput).normalized;
+            Vector3 forward = cameraTransfrom.forward;
+            Vector3 right = cameraTransfrom.right;
+            forward.Normalize();
+            right.Normalize();
+            // movementDirection = new Vector3(hInput, 0, vInput).normalized;
+            movementDirection = (forward * vInput + right * hInput).normalized;
             Interact();
             Jump();
         }
