@@ -157,10 +157,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bolita
   jumpForce: 8
   moveForce: 5
+  cameraTransfrom: {fileID: 0}
   whatIsInteractable:
     serializedVersion: 2
     m_Bits: 8
-  scoreText: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: 49fa199c6c704b54f9a6edeb93bc4412, type: 3}
 --- !u!96 &6915584085841024624
 TrailRenderer:
   serializedVersion: 4

@@ -7,6 +7,7 @@ TagManager:
   - Coin
   - DestructibleBloque
   - BotonLaverinto
+  - Final
   layers:
   - Default
   - TransparentFX

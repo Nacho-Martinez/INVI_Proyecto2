@@ -54,8 +54,6 @@ public class Bolita : MonoBehaviour
         //tomar la lectura de los imputs WASD y/0 flechas.
         //Aplicar una fuerza continua hacia donde indiquen los inputs
         //para poder mover la bola.
-        if (!PrimeraSala.Instance.IsRotating)
-        {
             float hInput = Input.GetAxisRaw("Horizontal");
             float vInput = Input.GetAxisRaw("Vertical");
             Vector3 forward = cameraTransfrom.forward;
@@ -66,7 +64,6 @@ public class Bolita : MonoBehaviour
             movementDirection = (forward * vInput + right * hInput).normalized;
             Interact();
             Jump();
-        }
     }
 
     private void Interact()
