@@ -7,7 +7,7 @@ public class Bala : MonoBehaviour
     public ObjectPool<Bala> MyPool { get; set; }
 
     [SerializeField] private float bulletForce = 5f;
-
+    [SerializeField] private int damage = 1;
     private Rigidbody rb;
 
     private void Awake()
@@ -26,9 +26,14 @@ public class Bala : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (other.CompareTag("Final"))
+        if (other.CompareTag("DestroyBullet"))
         {
             MyPool.Release(this);
         }
+    }
+
+    public void Damage(int hp)
+    {
+        hp -= damage;
     }
 }

@@ -8,6 +8,10 @@ TagManager:
   - DestructibleBloque
   - BotonLaverinto
   - Final
+  - BaseSegundoNivel
+  - ChangeLvl
+  - DestroyBullet
+  - Lvl2Tp
   layers:
   - Default
   - TransparentFX

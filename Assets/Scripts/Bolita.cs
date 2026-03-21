@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -14,66 +15,67 @@ public class Bolita : MonoBehaviour
     [SerializeField] private float moveForce = 5f;
     [SerializeField] private Transform cameraTransfrom;
     
-    [Header("Checkers")]
-    [SerializeField] private LayerMask whatIsInteractable;
+    [Header("Sats")] 
+    [SerializeField]private int hp = 3;
+
+    [SerializeField] private float maxTime = 200;
+    
 
     [Header("SFX")]
     [SerializeField] private AudioClip jumpSound;
+
+    [Header("Control")] 
+    [SerializeField] private bool hastime;
+    [SerializeField] private bool hashp;
     
-    
-    // [SerializeField] private AudioClip jumpSound;
     private Vector3 movementDirection;
     private Rigidbody rb;
     private Vector3 actualposition;
     private float offsetraycast = 0.1f;
-    // private AudioSource _audioSource;
-    private int score = 0;
 
     private void Awake()
     {
        rb = GetComponent<Rigidbody>();
-      // _audioSource= GetComponent<AudioSource>();
+      
 
 
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+        if (hashp)
+        {
+            UIManager.Instance.ScoreText.SetText("Lives:" + hp);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //tomar la lectura de los imputs WASD y/0 flechas.
-        //Aplicar una fuerza continua hacia donde indiquen los inputs
-        //para poder mover la bola.
+        
             float hInput = Input.GetAxisRaw("Horizontal");
             float vInput = Input.GetAxisRaw("Vertical");
             Vector3 forward = cameraTransfrom.forward;
             Vector3 right = cameraTransfrom.right;
             forward.Normalize();
             right.Normalize();
-            // movementDirection = new Vector3(hInput, 0, vInput).normalized;
             movementDirection = (forward * vInput + right * hInput).normalized;
-            Interact();
             Jump();
-    }
 
-    private void Interact()
-    {
-        // if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     
-        // }
+            if (hastime)
+            {
+                maxTime -= Time.deltaTime;
+                UIManager.Instance.ScoreText.SetText("Time :" + maxTime);
+                if (maxTime <= 0)
+                {
+                    SceneManager.LoadScene("Main Menu");
+                    MenuManager.Instance.ShowLoseMenu();
+                }
+            }
+        
+        
     }
-
+    
     private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -82,8 +84,6 @@ public class Bolita : MonoBehaviour
             //Se lanza un rayo para ver si estoy en suelo 
             if (Physics.Raycast(transform.localPosition, Vector3.down, transform.localScale.y + offsetraycast))
             {
-                // _audioSource.clip = jumpSound;
-                // _audioSource.Play();
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
         }
@@ -97,28 +97,30 @@ public class Bolita : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //Cuando de produce un evento de trigger (atravesar)
     {
-        if (other.gameObject.TryGetComponent(out Coin coinScript))
+        if (other.gameObject.CompareTag("BaseSegundoNivel")|| other.gameObject.CompareTag("Lvl2Tp"))
         {
-            score += coinScript.CoinScore;
-           UIManager.Instance.ScoreText.SetText("Score: " + score);
-            Destroy(other.gameObject);
+            gameObject.transform.position = new Vector3(28.62f,84.56f,-91.52f);
         }
-    }
 
-    private void OnCollisionEnter(Collision other) //Se produce una colision (un choque)
-    {
-        if (other.gameObject.CompareTag("DestructibleBloque"))
+        if (other.gameObject.CompareTag("ChangeLvl"))
         {
-            Destroy(other.gameObject);
+            SceneManager.LoadScene("Scenes/SegundoNivel");
         }
+
+        if (other.gameObject.CompareTag("Final"))
+        {
+            SceneManager.LoadScene("Main Menu");
+            MenuManager.Instance.ShowWinMenu();
+        }
+        
     }
+    
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("BotonLaverinto"))
         {
             UIManager.Instance.InteractText.SetText("Presiona E");
-            // transform.SetParent(other.gameObject.transform);
             if (Input.GetKeyDown(KeyCode.E))
             {
             PrimeraSala.Instance.Rotate();
@@ -131,7 +133,21 @@ public class Bolita : MonoBehaviour
         if (other.gameObject.CompareTag("BotonLaverinto"))
         {
             UIManager.Instance.InteractText.SetText("");
-            // transform.SetParent(null);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        
+        if (other.gameObject.TryGetComponent(out Bala bala))
+        {
+            bala.Damage(hp);
+            UIManager.Instance.ScoreText.SetText("Lives:" + hp);
+            if (hp <= 0)
+            {
+                MenuManager.Instance.ShowLoseMenu();
+                SceneManager.LoadScene("Main Menu");
+            }
         }
     }
 }

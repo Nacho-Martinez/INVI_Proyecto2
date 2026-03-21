@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     //Un campo automaticamente encapsulado y está serializado 
     [field: SerializeField] public TMP_Text ScoreText { get; private set; }
     [field: SerializeField] public TMP_Text InteractText { get; private set; }
+    
     public static UIManager Instance { get; private set; }
     
     private void Awake()
