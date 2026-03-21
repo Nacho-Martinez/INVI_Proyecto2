@@ -8,6 +8,8 @@ public class Cañon : MonoBehaviour
     [SerializeField] private Bala proyectilePrefab;
     [SerializeField] private float proyectileSize = 1f;
     [SerializeField] private float fireRate = 2f;
+    
+    [SerializeField] private AudioClip Canon;
 
     private float timer;
 
@@ -31,6 +33,7 @@ public class Cañon : MonoBehaviour
 
     private void Shoot()
     {
+        AudioManager.AudioInstance.PlaySoud(Canon);
         Bala bullet = bulletPool.Get();
 
         

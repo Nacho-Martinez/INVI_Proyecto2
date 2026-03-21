@@ -23,6 +23,7 @@ public class Bolita : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip portal;
 
     [Header("Control")] 
     [SerializeField] private bool hastime;
@@ -99,11 +100,12 @@ public class Bolita : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BaseSegundoNivel")|| other.gameObject.CompareTag("Lvl2Tp"))
         {
+            AudioManager.AudioInstance.PlaySoud(portal);
             gameObject.transform.position = new Vector3(28.62f,84.56f,-91.52f);
         }
-
         if (other.gameObject.CompareTag("ChangeLvl"))
         {
+            AudioManager.AudioInstance.PlaySoud(portal);
             SceneManager.LoadScene("Scenes/SegundoNivel");
         }
 
@@ -141,7 +143,7 @@ public class Bolita : MonoBehaviour
         
         if (other.gameObject.TryGetComponent(out Bala bala))
         {
-            bala.Damage(hp);
+            hp--; 
             UIManager.Instance.ScoreText.SetText("Lives:" + hp);
             if (hp <= 0)
             {

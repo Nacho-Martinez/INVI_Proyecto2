@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 2d4e12935b8ba6a43b6a5a2ff566d6ea
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - proyectilePrefab: {instanceID: 0}
+  - Canon: {fileID: 8300000, guid: 02a2f98d0cd89264f947469534412cee, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

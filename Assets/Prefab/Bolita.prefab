@@ -158,10 +158,12 @@ MonoBehaviour:
   jumpForce: 8
   moveForce: 5
   cameraTransfrom: {fileID: 0}
-  whatIsInteractable:
-    serializedVersion: 2
-    m_Bits: 8
-  jumpSound: {fileID: 8300000, guid: 49fa199c6c704b54f9a6edeb93bc4412, type: 3}
+  hp: 3
+  maxTime: 200
+  jumpSound: {fileID: 8300000, guid: e23760441a3f65946b0f7f447dc658c9, type: 3}
+  portal: {fileID: 8300000, guid: 89a40365727d30d4fb9fe0fa1b81b7e9, type: 3}
+  hastime: 1
+  hashp: 0
 --- !u!96 &6915584085841024624
 TrailRenderer:
   serializedVersion: 4

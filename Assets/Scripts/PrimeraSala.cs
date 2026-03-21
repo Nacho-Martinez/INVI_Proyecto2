@@ -8,6 +8,7 @@ public class PrimeraSala : MonoBehaviour
     [SerializeField] private float rotationDuration = 2f;
     [SerializeField] private CinemachineCamera mainCamera;
     [SerializeField] private CinemachineCamera rotationCamera;
+    [SerializeField]  private AudioClip gearSound;
     private float rotationAmount = 90f;
     public bool IsRotating { get; private set; } = false;
     private Rigidbody rb;
@@ -19,9 +20,6 @@ public class PrimeraSala : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            
-            //Aquel que reclama el trono no se destruye entre escenasField
-            DontDestroyOnLoad(this.gameObject);
             rb = GetComponent<Rigidbody>();
 
         }
@@ -59,6 +57,7 @@ public class PrimeraSala : MonoBehaviour
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.Euler(rotationAmount, 0, 0);
         float time = 0;
+        AudioManager.AudioInstance.PlaySoud(gearSound);
 
         while (time < rotationDuration)
         {
